@@ -42,7 +42,7 @@ export default function Contact() {
                 <span className="block text-xs uppercase tracking-wider text-white/50">
                   Correo
                 </span>
-                <span className="font-display font-semibold">hola@descubrelotuyo.es</span>
+                <span className="font-display font-semibold">descubrelotuyo@gmail.com</span>
               </span>
             </a>
 
