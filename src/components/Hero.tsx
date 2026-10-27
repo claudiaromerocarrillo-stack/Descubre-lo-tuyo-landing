@@ -120,9 +120,9 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
                 className="w-full h-full"
               >
                 <TileLayer
-                  attribution='&copy; OpenStreetMap'
-                  url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-                />
+  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+/>
 
                 {mapPoints.map((punto: any) => (
                   <Marker
