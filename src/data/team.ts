@@ -14,14 +14,14 @@ export const team: TeamMember[] = [
       'https://images.pexels.com/photos/9502305/pexels-photo-9502305.jpeg?auto=compress&cs=tinysrgb&h=400&w=400',
   },
   {
-    name: 'Lucía Gómez Cabrera',
+    name: 'Jose Vizuete Montero',
     role: 'Guion y Relatos Sonoros',
     bio: 'Escribe y produce las audioguías. Convierte la historia en historias que se escuchan.',
     avatar:
       'https://images.pexels.com/photos/29615996/pexels-photo-29615996.png?auto=compress&cs=tinysrgb&h=400&w=400',
   },
   {
-    name: 'Jose Vizuete Montero',
+    name: 'Lucía Gómez Cabrera',
     role: 'Diseño y Redes',
     bio: 'Diseña la identidad visual y lleva el proyecto a TikTok e Instagram. El ojo de DLY.',
     avatar:
