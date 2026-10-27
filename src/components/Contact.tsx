@@ -32,7 +32,7 @@ export default function Contact() {
 
           <div className="mt-9 space-y-4">
             <a
-              href="mailto:hola@descubrelotuyo.es"
+              href="mailto:descubrelotuyo@gmail.com"
               className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-dly/40 hover:bg-white/10"
             >
               <span className="grid h-11 w-11 place-items-center rounded-xl bg-dly text-white">
