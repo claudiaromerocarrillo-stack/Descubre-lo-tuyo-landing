@@ -53,7 +53,7 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
                   />
                 </svg>
               </span>{' '}
-              para todos.
+          
             </span>
           </h1>
           <p className="mt-7 max-w-xl font-serif text-lg leading-relaxed text-white/80">
