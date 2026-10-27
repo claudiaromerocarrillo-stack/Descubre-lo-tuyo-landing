@@ -33,11 +33,11 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
             Proyecto cultural transmedia · Sevilla
           </div>
           <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
-            Redescubrimos Sevilla,
+            Conecta con Sevilla.
             <span className="relative mt-2 block text-white">
-              de{' '}
+              
               <span className="relative text-dly-300">
-                todos
+                Redescubre lo tuyo. 
                 <svg
                   className="absolute -bottom-2 left-0 w-full text-dly"
                   height="10"
