@@ -6,7 +6,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
-// Icono rojo corporativo
+// Icono rojo corporativo (#9c0000)
 const redIcon = new L.DivIcon({
   className: 'custom-pin',
   html: `<div style="background-color: #9c0000; width: 24px; height: 24px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3); cursor: pointer;"></div>`,
@@ -120,40 +120,53 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
                 className="w-full h-full"
               >
                 <TileLayer
-  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-/>
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
 
-                {mapPoints.map((punto: any) => (
-                  <Marker
-                    key={punto.id}
-                    position={[
-                      punto.lat || punto.coordinates?.[0] || 37.3891,
-                      punto.lng || punto.coordinates?.[1] || -5.9845,
-                    ]}
-                    icon={redIcon}
-                    eventHandlers={{
-                      click: () => setActivePoint(punto),
-                    }}
-                  >
-                    <Popup>
-                      <div className="p-1 text-slate-900 font-sans">
-                        <h3 className="font-bold text-base mb-1 text-[#9c0000]">
-                          {punto.title || punto.name}
-                        </h3>
-                        <p className="text-xs text-slate-600 mb-2">
-                          {punto.description || punto.subtitle}
-                        </p>
-                        <button
-                          onClick={() => setActivePoint(punto)}
-                          className="w-full bg-[#9c0000] text-white text-xs py-1.5 px-3 rounded-full font-semibold hover:opacity-90 transition"
-                        >
-                          🎧 Escuchar relato
-                        </button>
-                      </div>
-                    </Popup>
-                  </Marker>
-                ))}
+                {mapPoints.map((punto: any, index: number) => {
+                  const lat = 
+                    punto.coords?.lat ?? 
+                    punto.lat ?? 
+                    punto.latitude ?? 
+                    (Array.isArray(punto.coordinates) ? punto.coordinates[0] : null) ?? 
+                    37.3891;
+
+                  const lng = 
+                    punto.coords?.lng ?? 
+                    punto.lng ?? 
+                    punto.longitude ?? 
+                    (Array.isArray(punto.coordinates) ? punto.coordinates[1] : null) ?? 
+                    -5.9845;
+
+                  return (
+                    <Marker
+                      key={punto.id || index}
+                      position={[Number(lat), Number(lng)]}
+                      icon={redIcon}
+                      eventHandlers={{
+                        click: () => setActivePoint(punto),
+                      }}
+                    >
+                      <Popup>
+                        <div className="p-1 text-slate-900 font-sans">
+                          <h3 className="font-bold text-base mb-1 text-[#9c0000]">
+                            {punto.title || punto.name || punto.nombre}
+                          </h3>
+                          <p className="text-xs text-slate-600 mb-2">
+                            {punto.description || punto.subtitle || punto.desc}
+                          </p>
+                          <button
+                            onClick={() => setActivePoint(punto)}
+                            className="w-full bg-[#9c0000] text-white text-xs py-1.5 px-3 rounded-full font-semibold hover:opacity-90 transition"
+                          >
+                            🎧 Escuchar relato
+                          </button>
+                        </div>
+                      </Popup>
+                    </Marker>
+                  );
+                })}
               </MapContainer>
             </div>
           </div>
