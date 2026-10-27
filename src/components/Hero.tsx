@@ -14,6 +14,7 @@ const redIcon = new L.DivIcon({
   iconAnchor: [12, 24],
   popupAnchor: [0, -24],
 });
+
 interface HeroProps {
   activePoint: MapPoint | null;
   setActivePoint: (p: MapPoint | null) => void;
@@ -46,9 +47,8 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
           <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
             Conecta con Sevilla.
             <span className="relative mt-2 block text-white">
-              
               <span className="relative text-dly-300">
-                Redescubre lo tuyo. 
+                Redescubre lo tuyo.
                 <svg
                   className="absolute -bottom-2 left-0 w-full text-dly"
                   height="10"
@@ -64,13 +64,13 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
                   />
                 </svg>
               </span>{' '}
-          
             </span>
           </h1>
           <p className="mt-7 max-w-xl font-serif text-lg leading-relaxed text-white/80">
             Relatos sonoros cortos, en lenguaje fresco y de acceso libre, para que el
             patrimonio de Sevilla se escuche, se sienta y se comparta como nunca antes,
-          a cualquier edad.</p>
+            a cualquier edad.
+          </p>
           <div className="mt-9 flex flex-wrap items-center gap-4">
             <a href="#proyecto" className="btn-primary">
               Explora la plataforma
@@ -112,46 +112,53 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
               </span>
             </div>
 
-          <div className="w-full h-[450px] rounded-2xl overflow-hidden shadow-xl border border-white/10 relative z-10">
-  <MapContainer 
-    center={[37.3891, -5.9845]} 
-    zoom={14} 
-    scrollWheelZoom={true} 
-    className="w-full h-full"
-  >
-    <TileLayer
-      attribution='&copy; OpenStreetMap'
-      url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-    />
-    
-    {mapPoints.map((punto: any) => (
-      <Marker 
-        key={punto.id} 
-        position={[
-          punto.lat || punto.coordinates?.[0] || 37.3891, 
-          punto.lng || punto.coordinates?.[1] || -5.9845
-        ]} 
-        icon={redIcon}
-        eventHandlers={{
-          click: () => setActivePoint(punto)
-        }}
-      >
-        <Popup>
-          <div className="p-1 text-slate-900 font-sans">
-            <h3 className="font-bold text-base mb-1 text-[#9c0000]">{punto.title || punto.name}</h3>
-            <p className="text-xs text-slate-600 mb-2">{punto.description || punto.subtitle}</p>
-            <button 
-              onClick={() => setActivePoint(punto)}
-              className="w-full bg-[#9c0000] text-white text-xs py-1.5 px-3 rounded-full font-semibold hover:opacity-90 transition"
-            >
-              🎧 Escuchar relato
-            </button>
+            <div className="w-full h-[450px] rounded-2xl overflow-hidden shadow-xl border border-white/10 relative z-10">
+              <MapContainer
+                center={[37.3891, -5.9845]}
+                zoom={14}
+                scrollWheelZoom={true}
+                className="w-full h-full"
+              >
+                <TileLayer
+                  attribution='&copy; OpenStreetMap'
+                  url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+                />
+
+                {mapPoints.map((punto: any) => (
+                  <Marker
+                    key={punto.id}
+                    position={[
+                      punto.lat || punto.coordinates?.[0] || 37.3891,
+                      punto.lng || punto.coordinates?.[1] || -5.9845,
+                    ]}
+                    icon={redIcon}
+                    eventHandlers={{
+                      click: () => setActivePoint(punto),
+                    }}
+                  >
+                    <Popup>
+                      <div className="p-1 text-slate-900 font-sans">
+                        <h3 className="font-bold text-base mb-1 text-[#9c0000]">
+                          {punto.title || punto.name}
+                        </h3>
+                        <p className="text-xs text-slate-600 mb-2">
+                          {punto.description || punto.subtitle}
+                        </p>
+                        <button
+                          onClick={() => setActivePoint(punto)}
+                          className="w-full bg-[#9c0000] text-white text-xs py-1.5 px-3 rounded-full font-semibold hover:opacity-90 transition"
+                        >
+                          🎧 Escuchar relato
+                        </button>
+                      </div>
+                    </Popup>
+                  </Marker>
+                ))}
+              </MapContainer>
+            </div>
           </div>
-        </Popup>
-      </Marker>
-    ))}
-  </MapContainer>
-</div>
+        </div>
+      </div>
 
       {/* Marquee */}
       <div className="relative border-y border-white/10 bg-ink/40 py-4">
