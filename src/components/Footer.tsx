@@ -16,7 +16,7 @@ export default function Footer() {
           Relatos sonoros del patrimonio de Sevilla. De todos para todos.
         </p>
         <div className="flex items-center gap-4">
-          <a href="mailto:hola@descubrelotuyo.es" aria-label="Correo" className="transition hover:text-white">
+          <a href="mailto:descubrelotuyo@gmail.com" aria-label="Correo" className="transition hover:text-white">
             <Mail className="h-5 w-5" />
           </a>
           <a href="#" aria-label="Instagram" className="transition hover:text-white">
