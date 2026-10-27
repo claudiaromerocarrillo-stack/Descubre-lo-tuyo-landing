@@ -60,7 +60,7 @@ export default function Contact() {
 
             <div className="flex flex-wrap gap-3 pt-2">
               <a
-                href="www.tiktok.com/@descubrelotuyo"
+                href="https://www.tiktok.com/@descubrelotuyo"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5 text-sm font-medium transition hover:bg-dly"
