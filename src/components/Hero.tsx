@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { MapPin, Play, Headphones, ArrowDown, Radio } from 'lucide-react';
-import { mapPoints, type MapPoint } from '@/data/map';
+import { type MapPoint } from '@/data/map';
 import AudioPlayer from './AudioPlayer';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -14,6 +14,50 @@ const redIcon = new L.DivIcon({
   iconAnchor: [12, 24],
   popupAnchor: [0, -24],
 });
+
+// Puntos fijos con coordenadas GPS exactas de Sevilla
+const puntosLocales: any[] = [
+  {
+    id: 'giralda',
+    title: 'Catedral y Giralda',
+    subtitle: 'El corazón sonoro del casco histórico.',
+    lat: 37.3861,
+    lng: -5.9926,
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+  },
+  {
+    id: 'torre-del-oro',
+    title: 'Torre del Oro',
+    subtitle: 'Historias y leyendas a orillas del Guadalquivir.',
+    lat: 37.3824,
+    lng: -5.9963,
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
+  },
+  {
+    id: 'plaza-espana',
+    title: 'Plaza de España',
+    subtitle: 'Un paseo por la arquitectura de 1929.',
+    lat: 37.3772,
+    lng: -5.9869,
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'
+  },
+  {
+    id: 'triana',
+    title: 'Puente de Triana',
+    subtitle: 'Arte, tradición y alma alfarera.',
+    lat: 37.3858,
+    lng: -6.0024,
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3'
+  },
+  {
+    id: 'setas',
+    title: 'Setas de Sevilla',
+    subtitle: 'Mirador contemporáneo sobre la ciudad.',
+    lat: 37.3934,
+    lng: -5.9917,
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3'
+  }
+];
 
 interface HeroProps {
   activePoint: MapPoint | null;
@@ -77,7 +121,7 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
               <ArrowDown className="h-4 w-4" />
             </a>
             <button
-              onClick={() => setActivePoint(mapPoints[1])}
+              onClick={() => setActivePoint(puntosLocales[0])}
               className="btn-light"
             >
               <Headphones className="h-4 w-4" />
@@ -114,7 +158,7 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
 
             <div className="w-full h-[450px] rounded-2xl overflow-hidden shadow-xl border border-white/10 relative z-10">
               <MapContainer
-                center={[37.3891, -5.9845]}
+                center={[37.3861, -5.9926]}
                 zoom={14}
                 scrollWheelZoom={true}
                 className="w-full h-full"
@@ -124,49 +168,33 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
 
-                {mapPoints.map((punto: any, index: number) => {
-                  const lat = 
-                    punto.coords?.lat ?? 
-                    punto.lat ?? 
-                    punto.latitude ?? 
-                    (Array.isArray(punto.coordinates) ? punto.coordinates[0] : null) ?? 
-                    37.3891;
-
-                  const lng = 
-                    punto.coords?.lng ?? 
-                    punto.lng ?? 
-                    punto.longitude ?? 
-                    (Array.isArray(punto.coordinates) ? punto.coordinates[1] : null) ?? 
-                    -5.9845;
-
-                  return (
-                    <Marker
-                      key={punto.id || index}
-                      position={[Number(lat), Number(lng)]}
-                      icon={redIcon}
-                      eventHandlers={{
-                        click: () => setActivePoint(punto),
-                      }}
-                    >
-                      <Popup>
-                        <div className="p-1 text-slate-900 font-sans">
-                          <h3 className="font-bold text-base mb-1 text-[#9c0000]">
-                            {punto.title || punto.name || punto.nombre}
-                          </h3>
-                          <p className="text-xs text-slate-600 mb-2">
-                            {punto.description || punto.subtitle || punto.desc}
-                          </p>
-                          <button
-                            onClick={() => setActivePoint(punto)}
-                            className="w-full bg-[#9c0000] text-white text-xs py-1.5 px-3 rounded-full font-semibold hover:opacity-90 transition"
-                          >
-                            🎧 Escuchar relato
-                          </button>
-                        </div>
-                      </Popup>
-                    </Marker>
-                  );
-                })}
+                {puntosLocales.map((punto) => (
+                  <Marker
+                    key={punto.id}
+                    position={[punto.lat, punto.lng]}
+                    icon={redIcon}
+                    eventHandlers={{
+                      click: () => setActivePoint(punto),
+                    }}
+                  >
+                    <Popup>
+                      <div className="p-1 text-slate-900 font-sans">
+                        <h3 className="font-bold text-base mb-1 text-[#9c0000]">
+                          {punto.title}
+                        </h3>
+                        <p className="text-xs text-slate-600 mb-2">
+                          {punto.subtitle}
+                        </p>
+                        <button
+                          onClick={() => setActivePoint(punto)}
+                          className="w-full bg-[#9c0000] text-white text-xs py-1.5 px-3 rounded-full font-semibold hover:opacity-90 transition"
+                        >
+                          🎧 Escuchar relato
+                        </button>
+                      </div>
+                    </Popup>
+                  </Marker>
+                ))}
               </MapContainer>
             </div>
           </div>
