@@ -2,7 +2,18 @@ import { useState } from 'react';
 import { MapPin, Play, Headphones, ArrowDown, Radio } from 'lucide-react';
 import { mapPoints, type MapPoint } from '@/data/map';
 import AudioPlayer from './AudioPlayer';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
+// Icono rojo corporativo
+const redIcon = new L.DivIcon({
+  className: 'custom-pin',
+  html: `<div style="background-color: #9c0000; width: 24px; height: 24px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3); cursor: pointer;"></div>`,
+  iconSize: [24, 24],
+  iconAnchor: [12, 24],
+  popupAnchor: [0, -24],
+});
 interface HeroProps {
   activePoint: MapPoint | null;
   setActivePoint: (p: MapPoint | null) => void;
@@ -101,101 +112,46 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
               </span>
             </div>
 
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-amber-50 via-orange-50 to-dly/10 ring-1 ring-black/5">
-              {/* Trazo del río Guadalquivir */}
-              <svg
-                viewBox="0 0 100 125"
-                className="absolute inset-0 h-full w-full text-dly/15"
-                preserveAspectRatio="none"
-              >
-                <path
-                  d="M20 10 C 24 30 18 44 26 58 C 34 72 30 92 38 120"
-                  stroke="rgba(156,0,0,0.3)"
-                  strokeWidth="2.5"
-                  fill="none"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M15 95 Q 50 98 88 92"
-                  stroke="rgba(156,0,0,0.15)"
-                  strokeWidth="1.5"
-                  fill="none"
-                  strokeLinecap="round"
-                />
-              </svg>
-              {/* Etiqueta de distrito */}
-              <span className="absolute right-2 top-2 rounded-md bg-white/70 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-dly/80 backdrop-blur">
-                Casco antiguo
-              </span>
-
-              {/* Puntos */}
-              {mapPoints.map((p) => {
-                const isActive = hovered === p.id || activePoint?.id === p.id;
-                return (
-                  <button
-                    key={p.id}
-                    onClick={() => setActivePoint(p)}
-                    onMouseEnter={() => setHovered(p.id)}
-                    onMouseLeave={() => setHovered(null)}
-                    style={{ left: `${p.x}%`, top: `${p.y}%` }}
-                    className="group absolute -translate-x-1/2 -translate-y-1/2"
-                    aria-label={`Punto: ${p.title} en ${p.city}`}
-                  >
-                    {/* Anillo */}
-                    <span
-                      className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full ${
-                        isActive ? 'h-10 w-10 bg-dly/30' : 'h-7 w-7 bg-dly/15'
-                      } animate-pulse-soft`}
-                    />
-                    <span
-                      className={`relative grid h-7 w-7 place-items-center rounded-full border-2 border-white shadow-lg transition-all ${
-                        isActive
-                          ? 'scale-125 bg-dly text-white'
-                          : 'bg-dly text-white'
-                      }`}
-                    >
-                      <MapPin className="h-3.5 w-3.5" />
-                    </span>
-
-                    {/* Tooltip */}
-                    <div
-                      className={`pointer-events-none absolute left-1/2 top-9 z-10 w-44 -translate-x-1/2 rounded-xl bg-white p-2.5 text-left shadow-xl transition-all duration-200 ${
-                        isActive
-                          ? 'translate-y-0 opacity-100'
-                          : 'translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100'
-                      }`}
-                    >
-                      <p className="font-display text-[11px] font-bold uppercase tracking-wide text-dly">
-                        {p.city}
-                      </p>
-                      <p className="text-xs font-semibold text-ink">{p.title}</p>
-                      <p className="mt-0.5 text-[10px] text-ink/60">
-                        Audioguía · {p.duration}
-                      </p>
-                    </div>
-                  </button>
-                );
-              })}
-
-              {/* Leyenda esquina */}
-              <div className="absolute bottom-2 left-2 rounded-lg bg-white/80 px-2.5 py-1.5 text-[10px] font-medium text-ink/70 backdrop-blur">
-                Toca un punto para escuchar
-              </div>
-            </div>
-
-            <button
-              onClick={() => setActivePoint(mapPoints[1])}
-              className="mt-3 flex w-full items-center justify-between rounded-2xl bg-dly px-4 py-3 text-white transition hover:bg-dly-700"
+          <div className="w-full h-[450px] rounded-2xl overflow-hidden shadow-xl border border-white/10 relative z-10">
+  <MapContainer 
+    center={[37.3891, -5.9845]} 
+    zoom={14} 
+    scrollWheelZoom={true} 
+    className="w-full h-full"
+  >
+    <TileLayer
+      attribution='&copy; OpenStreetMap'
+      url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+    />
+    
+    {mapPoints.map((punto: any) => (
+      <Marker 
+        key={punto.id} 
+        position={[
+          punto.lat || punto.coordinates?.[0] || 37.3891, 
+          punto.lng || punto.coordinates?.[1] || -5.9845
+        ]} 
+        icon={redIcon}
+        eventHandlers={{
+          click: () => setActivePoint(punto)
+        }}
+      >
+        <Popup>
+          <div className="p-1 text-slate-900 font-sans">
+            <h3 className="font-bold text-base mb-1 text-[#9c0000]">{punto.title || punto.name}</h3>
+            <p className="text-xs text-slate-600 mb-2">{punto.description || punto.subtitle}</p>
+            <button 
+              onClick={() => setActivePoint(punto)}
+              className="w-full bg-[#9c0000] text-white text-xs py-1.5 px-3 rounded-full font-semibold hover:opacity-90 transition"
             >
-              <span className="flex items-center gap-2 font-display text-sm font-semibold">
-                <Play className="h-4 w-4" />
-                Reproducir demo "{mapPoints[1].title}"
-              </span>
-              <span className="text-xs text-white/70">{mapPoints[1].duration}</span>
+              🎧 Escuchar relato
             </button>
           </div>
-        </div>
-      </div>
+        </Popup>
+      </Marker>
+    ))}
+  </MapContainer>
+</div>
 
       {/* Marquee */}
       <div className="relative border-y border-white/10 bg-ink/40 py-4">
