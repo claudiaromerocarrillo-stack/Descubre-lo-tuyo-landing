@@ -19,10 +19,10 @@ export default function Footer() {
           <a href="mailto:descubrelotuyo@gmail.com" aria-label="Correo" className="transition hover:text-white">
             <Mail className="h-5 w-5" />
           </a>
-          <a href="#" aria-label="Instagram" className="transition hover:text-white">
+          <a href="https://www.instagram.com/descubrelotuyo" aria-label="Instagram" className="transition hover:text-white">
             <Instagram className="h-5 w-5" />
           </a>
-          <a href="#" aria-label="TikTok" className="transition hover:text-white">
+          <a href="http://www.tiktok.com/@descubrelotuyo" aria-label="TikTok" className="transition hover:text-white">
             <Music2 className="h-5 w-5" />
           </a>
         </div>
