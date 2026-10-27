@@ -60,14 +60,18 @@ export default function Contact() {
 
             <div className="flex flex-wrap gap-3 pt-2">
               <a
-                href="#"
+                href="www.tiktok.com/@descubrelotuyo"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5 text-sm font-medium transition hover:bg-dly"
               >
                 <Music2 className="h-4 w-4" />
                 TikTok
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/descubrelotuyo?xtok=MTcwa3RsdTF1cnQ2Zg%3D%3D&utm_source=qr"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2.5 text-sm font-medium transition hover:bg-dly"
               >
                 <Instagram className="h-4 w-4" />
