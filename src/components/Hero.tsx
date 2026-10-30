@@ -214,45 +214,45 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
       </div>
 
       {/* Marquee */}
-      <div className="relative border-y border-white/10 bg-ink/40 py-4">
-        <div className="flex overflow-hidden">
-          <div className="flex shrink-0 animate-marquee items-center gap-10 pr-10 font-display text-sm uppercase tracking-widest text-white/40">
-            {[
-              'Torre del Oro',
-              'Giralda',
-              'Plaza de España',
-              'Santa Cruz',
-              'Las Setas',
-              'Triana',
-              'Archivo de Indias',
-              'Museo de Bellas Artes',
-            ].map((c, i) => (
-              <span key={i} className="flex items-center gap-10">
-                {c} <span className="text-dly">✦</span>
-              </span>
-            ))}
-          </div>
-          <div
-            aria-hidden
-            className="flex shrink-0 animate-marquee items-center gap-10 pr-10 font-display text-sm uppercase tracking-widest text-white/40"
-          >
-            {[
-              'Torre del Oro',
-              'Giralda',
-              'Plaza de España',
-              'Santa Cruz',
-              'Las Setas',
-              'Triana',
-              'Archivo de Indias',
-              'Museo de Bellas Artes',
-            ].map((c, i) => (
-              <span key={i} className="flex items-center gap-10">
-                {c} <span className="text-dly">✦</span>
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
+<div className="relative border-y border-white/10 bg-ink/60 py-4">
+  <div className="flex overflow-hidden">
+    <div className="flex shrink-0 animate-marquee items-center gap-10 pr-10 font-display text-sm font-semibold uppercase tracking-widest text-white/90">
+      {[
+        'Torre del Oro',
+        'Giralda',
+        'Plaza de España',
+        'Santa Cruz',
+        'Las Setas',
+        'Triana',
+        'Archivo de Indias',
+        'Museo de Bellas Artes',
+      ].map((c, i) => (
+        <span key={i} className="flex items-center gap-10">
+          {c} <span className="text-[#9c0000]">✦</span>
+        </span>
+      ))}
+    </div>
+    <div
+      aria-hidden
+      className="flex shrink-0 animate-marquee items-center gap-10 pr-10 font-display text-sm font-semibold uppercase tracking-widest text-white/90"
+    >
+      {[
+        'Torre del Oro',
+        'Giralda',
+        'Plaza de España',
+        'Santa Cruz',
+        'Las Setas',
+        'Triana',
+        'Archivo de Indias',
+        'Museo de Bellas Artes',
+      ].map((c, i) => (
+        <span key={i} className="flex items-center gap-10">
+          {c} <span className="text-[#9c0000]">✦</span>
+        </span>
+      ))}
+    </div>
+  </div>
+</div>
 
       <AudioPlayer active={activePoint} onClose={() => setActivePoint(null)} />
     </section>
