@@ -27,7 +27,7 @@ export default function About() {
   return (
     <section id="proyecto" className="relative py-20 md:py-28">
       <div className="container-dly grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
-        {/* Texto */}
+        {/* Columna Izquierda: Texto e Imagen */}
         <div>
           <span className="section-eyebrow">Sobre el proyecto</span>
           <h2 className="mt-4 font-display text-3xl font-bold leading-tight text-ink sm:text-4xl">
@@ -46,19 +46,20 @@ export default function About() {
             camina.
           </p>
 
-         <figure className="mt-8 overflow-hidden rounded-3xl border border-black/5 shadow-xl text-center">
-  <img
-    src="https://images.pexels.com/photos/17606509/pexels-photo-17606509.jpeg?auto=compress&cs=tinysrgb&w=900"
-    alt="Edificio emblemático en el entorno del Salvador, Sevilla"
-    className="h-56 w-full object-cover sm:h-72"
-    loading="lazy"
-  />
-  <figcaption className="p-3 font-serif text-xs italic text-ink/60 bg-white/50">
-    Edificio emblemático en el entorno del Salvador, Sevilla.
-  </figcaption>
-</figure>
+          <figure className="mt-8 overflow-hidden rounded-3xl border border-black/10 shadow-xl text-center bg-slate-50">
+            <img
+              src="https://images.pexels.com/photos/17606509/pexels-photo-17606509.jpeg?auto=compress&cs=tinysrgb&w=900"
+              alt="Edificio emblemático en el entorno del Salvador, Sevilla"
+              className="h-56 w-full object-cover sm:h-72"
+              loading="lazy"
+            />
+            <figcaption className="p-3 font-serif text-xs italic text-slate-700 bg-slate-100 border-t border-black/5">
+              Edificio emblemático en el entorno del Salvador, Sevilla.
+            </figcaption>
+          </figure>
+        </div>
 
-        {/* Comparativa + pilares */}
+        {/* Columna Derecha: Comparativa + pilares */}
         <div>
           <div className="rounded-3xl bg-ink p-7 text-white shadow-xl sm:p-9">
             <h3 className="font-display text-lg font-bold">
