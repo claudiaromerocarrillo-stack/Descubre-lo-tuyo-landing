@@ -46,15 +46,17 @@ export default function About() {
             camina.
           </p>
 
-          <div className="mt-8 overflow-hidden rounded-3xl border border-black/5 shadow-xl">
-            <img
-              src="https://images.pexels.com/photos/17606509/pexels-photo-17606509.jpeg?auto=compress&cs=tinysrgb&w=900"
-              alt="Fachada histórica en Sevilla"
-              className="h-56 w-full object-cover sm:h-72"
-              loading="lazy"
-            />
-          </div>
-        </div>
+         <figure className="mt-8 overflow-hidden rounded-3xl border border-black/5 shadow-xl text-center">
+  <img
+    src="https://images.pexels.com/photos/17606509/pexels-photo-17606509.jpeg?auto=compress&cs=tinysrgb&w=900"
+    alt="Edificio emblemático en el entorno del Salvador, Sevilla"
+    className="h-56 w-full object-cover sm:h-72"
+    loading="lazy"
+  />
+  <figcaption className="p-3 font-serif text-xs italic text-ink/60 bg-white/50">
+    Edificio emblemático en el entorno del Salvador, Sevilla.
+  </figcaption>
+</figure>
 
         {/* Comparativa + pilares */}
         <div>
