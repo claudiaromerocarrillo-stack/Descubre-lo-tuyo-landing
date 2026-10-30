@@ -7,6 +7,7 @@ import Blog from '@/components/Blog';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import type { MapPoint } from '@/data/map';
+import Forum from './components/Forum';
 
 export default function App() {
   const [activePoint, setActivePoint] = useState<MapPoint | null>(null);
@@ -19,6 +20,7 @@ export default function App() {
         <About />
         <Team />
         <Blog />
+        <Forum />
         <Contact />
       </main>
       <Footer />
