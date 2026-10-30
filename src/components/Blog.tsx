@@ -52,14 +52,17 @@ export default function Blog() {
           ))}
         </div>
 
-        {/* Grid */}
+        {/* Grid de noticias interactivas */}
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {visible.map((entry, i) => {
             const meta = categoryMeta[entry.category];
             const Icon = meta.icon;
             return (
-              <article
+              <a
                 key={entry.id}
+                href={entry.url}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group relative flex flex-col overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-black/5 transition-all duration-500 hover:-translate-y-1.5 hover:shadow-xl"
                 style={{ animationDelay: `${i * 40}ms` }}
               >
@@ -96,7 +99,7 @@ export default function Blog() {
                     </span>
                   </div>
                 </div>
-              </article>
+              </a>
             );
           })}
         </div>
