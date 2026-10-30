@@ -62,8 +62,8 @@ export default function Navbar() {
         </ul>
 
         <div className="hidden md:block">
-          <a href="#proyecto" className="btn-primary">
-            Explorar
+          <a href="#comunidad" className="btn-primary">
+            FORO
           </a>
         </div>
 
