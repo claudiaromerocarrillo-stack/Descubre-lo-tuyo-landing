@@ -102,10 +102,15 @@ export default function Navbar() {
             ))}
           </ul>
           <div className="pb-5">
-            <a href="#comunidad" onClick={() => setOpen(false)} className="w-full text-center rounded-full bg-[#9c000] py-3 text-sm font-semibold text-white shadow-md hover:opacity-90 transition block">
-              Foro
-            </a>
-          </div>
+  <a
+    href="#comunidad"
+    onClick={() => setOpen(false)}
+    style={{ backgroundColor: '#9c0000', color: '#ffffff' }}
+    className="block w-full text-center rounded-full py-3 text-sm font-bold shadow-md transition hover:opacity-90"
+  >
+    Foro
+  </a>
+</div>
         </div>
       </div>
     </header>
