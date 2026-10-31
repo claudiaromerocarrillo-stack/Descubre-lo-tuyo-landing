@@ -13,7 +13,7 @@ const redIcon = new L.DivIcon({
   popupAnchor: [0, -24],
 });
 
-// Puntos fijos vinculados a las imágenes subidas a public/
+// Puntos fijos vinculados a tus imágenes subidas a public/
 const puntosLocales: any[] = [
   {
     id: 'giralda',
@@ -234,4 +234,34 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
               'Museo de Bellas Artes',
             ].map((c, i) => (
               <span key={i} className="flex items-center gap-10">
-                {c} <span className="text-[#9c0000]">
+                {c} <span className="text-[#9c0000]">✦</span>
+              </span>
+            ))}
+          </div>
+          <div
+            aria-hidden
+            className="flex shrink-0 animate-marquee items-center gap-10 pr-10 font-display text-sm font-semibold uppercase tracking-widest text-white/90"
+          >
+            {[
+              'Torre del Oro',
+              'Giralda',
+              'Real Alcázar',
+              'Plaza de España',
+              'Santa Cruz',
+              'Las Setas',
+              'Triana',
+              'Archivo de Indias',
+              'Museo de Bellas Artes',
+            ].map((c, i) => (
+              <span key={i} className="flex items-center gap-10">
+                {c} <span className="text-[#9c0000]">✦</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <AudioPlayer active={activePoint} onClose={() => setActivePoint(null)} />
+    </section>
+  );
+}
