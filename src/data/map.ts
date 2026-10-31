@@ -35,7 +35,7 @@ export const mapPoints: MapPoint[] = [
     x: 50,
     y: 56,
     duration: '3:30',
-    blurb: 'El palacio real en uso más antiguo de Europa y sus leyendas.',
+    blurb: 'El palacio real en uso más antiguo de Europa y sus mil años de historia.',
   },
   {
     id: 'plaza-espana',
@@ -45,15 +45,6 @@ export const mapPoints: MapPoint[] = [
     y: 80,
     duration: '5:10',
     blurb: 'La plaza-palacio que soñó Aníbal González para la Iberoamericana de 1929.',
-  },
-  {
-    id: 'santa-cruz',
-    city: 'Sevilla',
-    title: 'Susurros del barrio de Santa Cruz',
-    x: 56,
-    y: 44,
-    duration: '4:50',
-    blurb: 'Callejones, patios y la Judería que inspiró a Bizet.',
   },
   {
     id: 'setas',
