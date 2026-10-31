@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import { MapPin, Play, Headphones, ArrowDown, Radio } from 'lucide-react';
-import { type MapPoint } from '@/data/map';
+import { MapPin, Headphones, ArrowDown, Radio } from 'lucide-react';
 import AudioPlayer from './AudioPlayer';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -15,7 +13,7 @@ const redIcon = new L.DivIcon({
   popupAnchor: [0, -24],
 });
 
-// Puntos fijos vinculados a tus imágenes subidas a public/
+// Puntos fijos vinculados a las imágenes subidas a public/
 const puntosLocales: any[] = [
   {
     id: 'giralda',
@@ -30,7 +28,7 @@ const puntosLocales: any[] = [
     id: 'real-alcazar',
     title: 'Real Alcázar de Sevilla',
     subtitle: 'El palacio real en uso más antiguo de Europa.',
-    image: '/alcazar.jpg',
+    image: '/realalzacar.jfif',
     lat: 37.3838,
     lng: -5.9913,
     audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3'
@@ -74,13 +72,11 @@ const puntosLocales: any[] = [
 ];
 
 interface HeroProps {
-  activePoint: MapPoint | null;
-  setActivePoint: (p: MapPoint | null) => void;
+  activePoint: any;
+  setActivePoint: (p: any) => void;
 }
 
 export default function Hero({ activePoint, setActivePoint }: HeroProps) {
-  const [hovered, setHovered] = useState<string | null>(null);
-
   return (
     <section id="inicio" className="relative overflow-hidden bg-ink pt-16 text-white md:pt-20">
       {/* Fondo */}
@@ -238,34 +234,4 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
               'Museo de Bellas Artes',
             ].map((c, i) => (
               <span key={i} className="flex items-center gap-10">
-                {c} <span className="text-[#9c0000]">✦</span>
-              </span>
-            ))}
-          </div>
-          <div
-            aria-hidden
-            className="flex shrink-0 animate-marquee items-center gap-10 pr-10 font-display text-sm font-semibold uppercase tracking-widest text-white/90"
-          >
-            {[
-              'Torre del Oro',
-              'Giralda',
-              'Real Alcázar',
-              'Plaza de España',
-              'Santa Cruz',
-              'Las Setas',
-              'Triana',
-              'Archivo de Indias',
-              'Museo de Bellas Artes',
-            ].map((c, i) => (
-              <span key={i} className="flex items-center gap-10">
-                {c} <span className="text-[#9c0000]">✦</span>
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <AudioPlayer active={activePoint} onClose={() => setActivePoint(null)} />
-    </section>
-  );
-}
+                {c} <span className="text-[#9c0000]">
