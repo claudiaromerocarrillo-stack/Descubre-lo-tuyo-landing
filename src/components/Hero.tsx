@@ -28,7 +28,7 @@ const puntosLocales: any[] = [
     id: 'real-alcazar',
     title: 'Real Alcázar de Sevilla',
     subtitle: 'El palacio real en uso más antiguo de Europa.',
-    image: '/realalzacar.jfif',
+    image: '/realalcazar.jpg',
     lat: 37.3838,
     lng: -5.9913,
     audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3'
