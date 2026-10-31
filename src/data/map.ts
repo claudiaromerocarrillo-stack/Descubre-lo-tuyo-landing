@@ -29,6 +29,15 @@ export const mapPoints: MapPoint[] = [
     blurb: 'De minarete a campanario: mil años mirando Sevilla desde lo alto.',
   },
   {
+    id: 'real-alcazar',
+    city: 'Sevilla',
+    title: 'Real Alcázar de Sevilla',
+    x: 50,
+    y: 56,
+    duration: '3:30',
+    blurb: 'El palacio real en uso más antiguo de Europa y sus leyendas.',
+  },
+  {
     id: 'plaza-espana',
     city: 'Sevilla',
     title: 'Plaza de España: un escenario de azulejos',
