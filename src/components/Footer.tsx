@@ -1,4 +1,4 @@
-import { Instagram, Music2, Mail } from 'lucide-react';
+import { Instagram, Music2, Mail, FileText } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -27,9 +27,20 @@ export default function Footer() {
           </a>
         </div>
       </div>
-      <p className="mt-6 text-center font-serif text-xs text-white/40">
-        © {new Date().getFullYear()} DescubreLoTuyo · Hecho en Sevilla
-      </p>
+
+      <div className="mt-8 flex flex-col items-center justify-center gap-2 border-t border-white/5 pt-6 text-center font-serif text-xs text-white/40 md:flex-row md:gap-6">
+        <p>© {new Date().getFullYear()} DescubreLoTuyo · Hecho en Sevilla</p>
+        <span className="hidden md:inline">·</span>
+        <a
+          href="/aviso-legal-y-otros.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-white/60 transition hover:text-white hover:underline"
+        >
+          <FileText className="h-3.5 w-3.5" />
+          Aviso Legal y otros (PDF)
+        </a>
+      </div>
     </footer>
   );
 }
