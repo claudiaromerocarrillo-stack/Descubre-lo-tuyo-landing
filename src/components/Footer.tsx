@@ -32,13 +32,13 @@ export default function Footer() {
         <p>© {new Date().getFullYear()} DescubreLoTuyo · Hecho en Sevilla</p>
         <span className="hidden md:inline">·</span>
         <a
-          href="/aviso-legal-y-otros.pdf"
+          href="/aviso-legal.pdf"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1 text-white/60 transition hover:text-white hover:underline"
         >
           <FileText className="h-3.5 w-3.5" />
-          Aviso Legal y otros (PDF)
+          Aviso Legal (PDF)
         </a>
       </div>
     </footer>
