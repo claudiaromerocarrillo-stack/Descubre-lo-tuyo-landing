@@ -13,8 +13,18 @@ const redIcon = new L.DivIcon({
   popupAnchor: [0, -24],
 });
 
-// Puntos fijos vinculados a los audios disponibles por el momento
-const puntosLocales: any[] = [
+interface PuntoSonoro {
+  id: string;
+  title: string;
+  subtitle: string;
+  image: string;
+  lat: number;
+  lng: number;
+  audioUrl?: string;
+}
+
+// Puntos locales con los 6 audios activos
+const puntosLocales: PuntoSonoro[] = [
   {
     id: 'giralda',
     title: 'Catedral y Giralda',
@@ -40,7 +50,7 @@ const puntosLocales: any[] = [
     image: '/torredeloro.jpg',
     lat: 37.3824,
     lng: -5.9963,
-    // Audio pendiente de subir
+    audioUrl: '/torredeloro.mp4'
   },
   {
     id: 'plaza-espana',
@@ -58,7 +68,7 @@ const puntosLocales: any[] = [
     image: '/triana.jpg',
     lat: 37.3858,
     lng: -6.0024,
-    // Audio pendiente de subir
+    audioUrl: '/triana.mp4'
   },
   {
     id: 'setas',
@@ -72,8 +82,8 @@ const puntosLocales: any[] = [
 ];
 
 interface HeroProps {
-  activePoint: any;
-  setActivePoint: (p: any) => void;
+  activePoint: PuntoSonoro | null;
+  setActivePoint: (p: PuntoSonoro | null) => void;
 }
 
 export default function Hero({ activePoint, setActivePoint }: HeroProps) {
@@ -184,7 +194,11 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
                     position={[punto.lat, punto.lng]}
                     icon={redIcon}
                     eventHandlers={{
-                      click: () => punto.audioUrl && setActivePoint(punto),
+                      click: () => {
+                        if (punto.audioUrl) {
+                          setActivePoint(punto);
+                        }
+                      },
                     }}
                   >
                     <Popup>
@@ -220,3 +234,54 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
                 ))}
               </MapContainer>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Marquee */}
+      <div className="relative border-y border-white/10 bg-ink/60 py-4">
+        <div className="flex overflow-hidden">
+          <div className="flex shrink-0 animate-marquee items-center gap-10 pr-10 font-display text-sm font-semibold uppercase tracking-widest text-white/90">
+            {[
+              'Torre del Oro',
+              'Giralda',
+              'Real Alcázar',
+              'Plaza de España',
+              'Santa Cruz',
+              'Las Setas',
+              'Triana',
+              'Archivo de Indias',
+              'Museo de Bellas Artes',
+            ].map((c, i) => (
+              <span key={i} className="flex items-center gap-10">
+                {c} <span className="text-[#9c0000]">✦</span>
+              </span>
+            ))}
+          </div>
+          <div
+            aria-hidden
+            className="flex shrink-0 animate-marquee items-center gap-10 pr-10 font-display text-sm font-semibold uppercase tracking-widest text-white/90"
+          >
+            {[
+              'Torre del Oro',
+              'Giralda',
+              'Real Alcázar',
+              'Plaza de España',
+              'Santa Cruz',
+              'Las Setas',
+              'Triana',
+              'Archivo de Indias',
+              'Museo de Bellas Artes',
+            ].map((c, i) => (
+              <span key={i} className="flex items-center gap-10">
+                {c} <span className="text-[#9c0000]">✦</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <AudioPlayer active={activePoint} onClose={() => setActivePoint(null)} />
+    </section>
+  );
+}
