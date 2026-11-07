@@ -13,7 +13,7 @@ const redIcon = new L.DivIcon({
   popupAnchor: [0, -24],
 });
 
-// Puntos fijos vinculados a tus imágenes y audios (.mp4) subidos a public/
+// Puntos fijos vinculados a los audios disponibles por el momento
 const puntosLocales: any[] = [
   {
     id: 'giralda',
@@ -40,7 +40,7 @@ const puntosLocales: any[] = [
     image: '/torredeloro.jpg',
     lat: 37.3824,
     lng: -5.9963,
-    audioUrl: '/torredeloro.mp4'
+    // Audio pendiente de subir
   },
   {
     id: 'plaza-espana',
@@ -58,7 +58,7 @@ const puntosLocales: any[] = [
     image: '/triana.jpg',
     lat: 37.3858,
     lng: -6.0024,
-    audioUrl: '/triana.mp4'
+    // Audio pendiente de subir
   },
   {
     id: 'setas',
@@ -184,7 +184,7 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
                     position={[punto.lat, punto.lng]}
                     icon={redIcon}
                     eventHandlers={{
-                      click: () => setActivePoint(punto),
+                      click: () => punto.audioUrl && setActivePoint(punto),
                     }}
                   >
                     <Popup>
@@ -202,42 +202,21 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
                         <p className="text-xs text-slate-600 mb-2">
                           {punto.subtitle}
                         </p>
-                        <button
-                          onClick={() => setActivePoint(punto)}
-                          className="w-full bg-[#9c0000] text-white text-xs py-1.5 px-3 rounded-full font-semibold hover:opacity-90 transition flex items-center justify-center gap-1"
-                        >
-                          🎧 Escuchar relato
-                        </button>
+                        {punto.audioUrl ? (
+                          <button
+                            onClick={() => setActivePoint(punto)}
+                            className="w-full bg-[#9c0000] text-white text-xs py-1.5 px-3 rounded-full font-semibold hover:opacity-90 transition flex items-center justify-center gap-1"
+                          >
+                            🎧 Escuchar relato
+                          </button>
+                        ) : (
+                          <span className="block text-center text-[10px] text-slate-400 font-medium italic">
+                            Próximamente disponible
+                          </span>
+                        )}
                       </div>
                     </Popup>
                   </Marker>
                 ))}
               </MapContainer>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Marquee */}
-      <div className="relative border-y border-white/10 bg-ink/60 py-4">
-        <div className="flex overflow-hidden">
-          <div className="flex shrink-0 animate-marquee items-center gap-10 pr-10 font-display text-sm font-semibold uppercase tracking-widest text-white/90">
-            {[
-              'Torre del Oro',
-              'Giralda',
-              'Real Alcázar',
-              'Plaza de España',
-              'Santa Cruz',
-              'Las Setas',
-              'Triana',
-              'Archivo de Indias',
-              'Museo de Bellas Artes',
-            ].map((c, i) => (
-              <span key={i} className="flex items-center gap-10">
-                {c} <span className="text-[#9c0000]">✦</span>
-              </span>
-            ))}
-          </div>
-          <div
-            aria-hidden
-            className="flex shrink-0 animate-marquee items-center gap-10 pr-10 font-display text-sm font-semibold uppercase tracking-widest text-white/
