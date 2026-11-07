@@ -13,7 +13,7 @@ const redIcon = new L.DivIcon({
   popupAnchor: [0, -24],
 });
 
-// Puntos fijos vinculados a tus imágenes subidas a public/
+// Puntos fijos vinculados a tus imágenes y audios (.mp4) subidos a public/
 const puntosLocales: any[] = [
   {
     id: 'giralda',
@@ -22,7 +22,7 @@ const puntosLocales: any[] = [
     image: '/Giralda.jpg',
     lat: 37.3861,
     lng: -5.9926,
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
+    audioUrl: '/giralda.mp4'
   },
   {
     id: 'real-alcazar',
@@ -31,7 +31,7 @@ const puntosLocales: any[] = [
     image: '/realalcazar.jpg',
     lat: 37.3838,
     lng: -5.9913,
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3'
+    audioUrl: '/alcazar.mp4'
   },
   {
     id: 'torre-del-oro',
@@ -40,7 +40,7 @@ const puntosLocales: any[] = [
     image: '/torredeloro.jpg',
     lat: 37.3824,
     lng: -5.9963,
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
+    audioUrl: '/torredeloro.mp4'
   },
   {
     id: 'plaza-espana',
@@ -49,7 +49,7 @@ const puntosLocales: any[] = [
     image: '/plazadeespaña.jpg',
     lat: 37.3772,
     lng: -5.9869,
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'
+    audioUrl: '/plazaespana.mp4'
   },
   {
     id: 'triana',
@@ -58,7 +58,7 @@ const puntosLocales: any[] = [
     image: '/triana.jpg',
     lat: 37.3858,
     lng: -6.0024,
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3'
+    audioUrl: '/triana.mp4'
   },
   {
     id: 'setas',
@@ -67,7 +67,7 @@ const puntosLocales: any[] = [
     image: '/Setas.jpg',
     lat: 37.3934,
     lng: -5.9917,
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3'
+    audioUrl: '/setas.mp4'
   }
 ];
 
@@ -240,28 +240,4 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
           </div>
           <div
             aria-hidden
-            className="flex shrink-0 animate-marquee items-center gap-10 pr-10 font-display text-sm font-semibold uppercase tracking-widest text-white/90"
-          >
-            {[
-              'Torre del Oro',
-              'Giralda',
-              'Real Alcázar',
-              'Plaza de España',
-              'Santa Cruz',
-              'Las Setas',
-              'Triana',
-              'Archivo de Indias',
-              'Museo de Bellas Artes',
-            ].map((c, i) => (
-              <span key={i} className="flex items-center gap-10">
-                {c} <span className="text-[#9c0000]">✦</span>
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <AudioPlayer active={activePoint} onClose={() => setActivePoint(null)} />
-    </section>
-  );
-}
+            className="flex shrink-0 animate-marquee items-center gap-10 pr-10 font-display text-sm font-semibold uppercase tracking-widest text-white/
