@@ -1,48 +1,105 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Volume2, SkipForward, SkipBack, X } from 'lucide-react';
-import { audioDemo, type MapPoint } from '@/data/map';
 
 interface AudioPlayerProps {
-  active: MapPoint | null;
+  active: any | null;
   onClose: () => void;
 }
 
 export default function AudioPlayer({ active, onClose }: AudioPlayerProps) {
   const [playing, setPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
-  const title = active?.title ?? 'Demo — Susurros de Sevilla';
-  const city = active?.city ?? 'Recorrido sonoro';
-  const duration = active?.duration ?? audioDemo.defaultDuration;
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Barra de progreso simulada
-  const togglePlay = () => {
-    setPlaying((p) => {
-      const next = !p;
-      if (next) {
-        window.clearInterval((window as unknown as { __dlyTimer?: number }).__dlyTimer);
-        const t = window.setInterval(() => {
-          setProgress((pr) => (pr >= 100 ? 0 : pr + 0.4));
-        }, 80);
-        (window as unknown as { __dlyTimer?: number }).__dlyTimer = t;
+  // Al cambiar de punto o de audioUrl, reiniciamos el reproductor
+  useEffect(() => {
+    if (active?.audioUrl) {
+      setPlaying(true);
+      setCurrentTime(0);
+    } else {
+      setPlaying(false);
+    }
+  }, [active?.audioUrl]);
+
+  // Autoplay real cuando el audio se monta/actualiza
+  useEffect(() => {
+    if (audioRef.current && active?.audioUrl) {
+      if (playing) {
+        audioRef.current.play().catch((err) => console.log('Autoplay bloqueado por el navegador:', err));
       } else {
-        window.clearInterval(
-          (window as unknown as { __dlyTimer?: number }).__dlyTimer,
-        );
+        audioRef.current.pause();
       }
-      return next;
-    });
+    }
+  }, [playing, active?.audioUrl]);
+
+  const togglePlay = () => {
+    if (!audioRef.current) return;
+    if (playing) {
+      audioRef.current.pause();
+      setPlaying(false);
+    } else {
+      audioRef.current.play().catch((err) => console.log('Error al reproducir audio:', err));
+      setPlaying(true);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (audioRef.current) {
+      setDuration(audioRef.current.duration);
+    }
+  };
+
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!audioRef.current || !duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const newTime = (clickX / rect.width) * duration;
+    audioRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
+  };
+
+  const formatTime = (timeInSeconds: number) => {
+    if (isNaN(timeInSeconds) || timeInSeconds === 0) return '0:00';
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
   if (!active) return null;
 
+  const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const title = active.title ?? 'Audioguía DLY';
+  const city = active.subtitle ?? 'Recorrido sonoro';
+
   return (
     <div className="fixed bottom-3 left-0 right-0 z-[9999] px-3 sm:px-4 flex justify-center pointer-events-none">
+      {/* Etiqueta HTML5 de audio real */}
+      <audio
+        ref={audioRef}
+        src={active.audioUrl}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={() => setPlaying(false)}
+        preload="auto"
+      />
+
       <div className="pointer-events-auto relative w-full max-w-lg animate-fade-up rounded-2xl border border-black/10 bg-white/95 p-3.5 shadow-2xl backdrop-blur-lg sm:p-5">
         
-        {/* Botón de cerrar (ahora dentro de los límites de la tarjeta) */}
+        {/* Botón de cerrar */}
         <button
-          onClick={() => { onClose(); }}
+          onClick={() => {
+            if (audioRef.current) audioRef.current.pause();
+            setPlaying(false);
+            onClose();
+          }}
           aria-label="Cerrar reproductor"
           className="absolute right-3 top-3 grid h-7 w-7 place-items-center rounded-full bg-ink/10 text-ink hover:bg-ink hover:text-white transition"
         >
@@ -82,36 +139,36 @@ export default function AudioPlayer({ active, onClose }: AudioPlayerProps) {
           </div>
         </div>
 
-        {/* Barra de tiempo */}
+        {/* Barra de tiempo interactiva real */}
         <div className="mt-3 flex items-center gap-2.5">
           <span className="font-display text-[11px] tabular-nums text-ink/50 min-w-[28px]">
-            0:{Math.floor((progress / 100) * 60)
-              .toString()
-              .padStart(2, '0')}
+            {formatTime(currentTime)}
           </span>
           <div
             className="relative h-2 flex-1 rounded-full bg-black/10 cursor-pointer"
-            onClick={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              setProgress(((e.clientX - rect.left) / rect.width) * 100);
-            }}
+            onClick={handleSeek}
           >
             <div
               className="absolute inset-y-0 left-0 rounded-full bg-dly"
-              style={{ width: `${progress}%` }}
+              style={{ width: `${progressPercent}%` }}
             />
             <div
               className="absolute top-1/2 h-3.5 w-3.5 -translate-y-1/2 rounded-full bg-white ring-2 ring-dly shadow"
-              style={{ left: `calc(${progress}% - 7px)` }}
+              style={{ left: `calc(${progressPercent}% - 7px)` }}
             />
           </div>
-          <span className="font-display text-[11px] tabular-nums text-ink/50 min-w-[28px] text-right">{duration}</span>
+          <span className="font-display text-[11px] tabular-nums text-ink/50 min-w-[28px] text-right">
+            {formatTime(duration)}
+          </span>
         </div>
 
         {/* Controles de reproducción */}
         <div className="mt-2.5 flex items-center justify-center gap-4">
           <button
             aria-label="Anterior"
+            onClick={() => {
+              if (audioRef.current) audioRef.current.currentTime = 0;
+            }}
             className="grid h-8 w-8 place-items-center rounded-full text-ink/70 transition hover:bg-black/5 hover:text-dly"
           >
             <SkipBack className="h-4 w-4" />
