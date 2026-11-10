@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
@@ -6,10 +7,13 @@ import Team from '@/components/Team';
 import Blog from '@/components/Blog';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
-import type { MapPoint } from '@/data/map';
 import Forum from './components/Forum';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
+import type { MapPoint } from '@/data/map';
 
-export default function App() {
+function MainLanding() {
   const [activePoint, setActivePoint] = useState<MapPoint | null>(null);
 
   return (
@@ -25,5 +29,29 @@ export default function App() {
       </main>
       <Footer />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Landing pública principal */}
+        <Route path="/" element={<MainLanding />} />
+        
+        {/* Pantalla de acceso administrador */}
+        <Route path="/login" element={<Login />} />
+        
+        {/* Panel privado protegido */}
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
