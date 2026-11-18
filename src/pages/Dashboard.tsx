@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Users, Headphones, MessageSquare, Trash2, LogOut, RefreshCw } from 'lucide-react';
+import { Users, Headphones, MessageSquare, Mail, Trash2, LogOut, RefreshCw, Copy, Check } from 'lucide-react';
 
 interface ForumComment {
   id: string;
@@ -12,12 +12,20 @@ interface ForumComment {
   created_at: string;
 }
 
+interface Subscriber {
+  id: string;
+  email: string;
+  created_at: string;
+}
+
 export default function Dashboard() {
   const navigate = useNavigate();
   const [totalVisits, setTotalVisits] = useState(0);
   const [totalPlays, setTotalPlays] = useState(0);
   const [audioRanking, setAudioRanking] = useState<{ name: string; count: number }[]>([]);
   const [comments, setComments] = useState<ForumComment[]>([]);
+  const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
+  const [copiedAll, setCopiedAll] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +35,7 @@ export default function Dashboard() {
   const loadDashboardData = async () => {
     setLoading(true);
 
-    // 1. Cargar eventos de visitas y reproducciones de audio
+    // 1. Visitas y audios
     const { data: events } = await supabase
       .from('analytics_events')
       .select('*');
@@ -39,7 +47,6 @@ export default function Dashboard() {
       setTotalVisits(visits.length);
       setTotalPlays(plays.length);
 
-      // Agrupar escuchas por nombre de audioguía
       const counts: Record<string, number> = {};
       plays.forEach((p) => {
         const name = p.item_name || 'Audio sin nombre';
@@ -53,7 +60,7 @@ export default function Dashboard() {
       setAudioRanking(sorted);
     }
 
-    // 2. Cargar comentarios del foro
+    // 2. Comentarios del foro
     const { data: forumData } = await supabase
       .from('forum_comments')
       .select('*')
@@ -61,6 +68,16 @@ export default function Dashboard() {
 
     if (forumData) {
       setComments(forumData);
+    }
+
+    // 3. Suscriptores de la Newsletter
+    const { data: subsData } = await supabase
+      .from('newsletter_subscribers')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (subsData) {
+      setSubscribers(subsData);
     }
 
     setLoading(false);
@@ -76,9 +93,27 @@ export default function Dashboard() {
 
     if (!error) {
       setComments(comments.filter((c) => c.id !== id));
-    } else {
-      alert('Error al eliminar el comentario.');
     }
+  };
+
+  const handleDeleteSubscriber = async (id: string) => {
+    if (!confirm('¿Eliminar este correo de la lista de suscriptores?')) return;
+
+    const { error } = await supabase
+      .from('newsletter_subscribers')
+      .delete()
+      .eq('id', id);
+
+    if (!error) {
+      setSubscribers(subscribers.filter((s) => s.id !== id));
+    }
+  };
+
+  const handleCopyAllEmails = () => {
+    const allEmails = subscribers.map((s) => s.email).join(', ');
+    navigator.clipboard.writeText(allEmails);
+    setCopiedAll(true);
+    setTimeout(() => setCopiedAll(false), 2500);
   };
 
   const handleLogout = async () => {
@@ -94,7 +129,7 @@ export default function Dashboard() {
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold">Panel de Administración</h1>
             <p className="text-sm text-white/60 mt-1">
-              Estadísticas en tiempo real y moderación de DescubreLoTuyo
+              Estadísticas en tiempo real, newsletter y moderación de DescubreLoTuyo
             </p>
           </div>
 
@@ -116,38 +151,92 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Tarjetas de Métricas */}
-        <div className="grid gap-6 sm:grid-cols-3 mt-8">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+        {/* 4 Tarjetas de Métricas */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-8">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-white/60">Visitas a la Web</span>
+              <span className="text-sm text-white/60">Visitas Web</span>
               <Users className="h-5 w-5 text-dly-300" />
             </div>
-            <p className="text-4xl font-bold mt-4">{totalVisits}</p>
-            <p className="text-xs text-white/40 mt-2">Entradas registradas en la landing</p>
+            <p className="text-3xl font-bold mt-3">{totalVisits}</p>
+            <p className="text-xs text-white/40 mt-1">Entradas totales</p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
             <div className="flex items-center justify-between">
               <span className="text-sm text-white/60">Audios Escuchados</span>
               <Headphones className="h-5 w-5 text-emerald-400" />
             </div>
-            <p className="text-4xl font-bold mt-4">{totalPlays}</p>
-            <p className="text-xs text-white/40 mt-2">Reproducciones totales iniciadas</p>
+            <p className="text-3xl font-bold mt-3">{totalPlays}</p>
+            <p className="text-xs text-white/40 mt-1">Reproducciones</p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-white/60">Comentarios en Foro</span>
+              <span className="text-sm text-white/60">Newsletter</span>
+              <Mail className="h-5 w-5 text-amber-400" />
+            </div>
+            <p className="text-3xl font-bold mt-3">{subscribers.length}</p>
+            <p className="text-xs text-white/40 mt-1">Correos registrados</p>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-white/60">Foro</span>
               <MessageSquare className="h-5 w-5 text-blue-400" />
             </div>
-            <p className="text-4xl font-bold mt-4">{comments.length}</p>
-            <p className="text-xs text-white/40 mt-2">Mensajes publicados por usuarios</p>
+            <p className="text-3xl font-bold mt-3">{comments.length}</p>
+            <p className="text-xs text-white/40 mt-1">Comentarios activos</p>
           </div>
         </div>
 
-        {/* Desglose por Audioguía */}
+        {/* Lista de Suscriptores Newsletter */}
         <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-6">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+            <h2 className="text-lg font-bold">
+              Suscriptores de la Newsletter ({subscribers.length})
+            </h2>
+            {subscribers.length > 0 && (
+              <button
+                onClick={handleCopyAllEmails}
+                className="flex items-center gap-2 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 px-3 py-1.5 text-xs font-semibold hover:bg-amber-500/30 transition"
+              >
+                {copiedAll ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                {copiedAll ? '¡Correos copiados!' : 'Copiar todos los emails'}
+              </button>
+            )}
+          </div>
+
+          {subscribers.length === 0 ? (
+            <p className="text-sm text-white/50">Aún no hay correos registrados en la newsletter.</p>
+          ) : (
+            <div className="space-y-2">
+              {subscribers.map((sub) => (
+                <div
+                  key={sub.id}
+                  className="flex items-center justify-between rounded-xl bg-white/5 px-4 py-2.5 border border-white/5"
+                >
+                  <div>
+                    <span className="text-sm font-medium text-white">{sub.email}</span>
+                    <span className="ml-3 text-xs text-white/40">
+                      {new Date(sub.created_at).toLocaleDateString('es-ES')}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => handleDeleteSubscriber(sub.id)}
+                    title="Eliminar suscriptor"
+                    className="rounded-lg bg-red-500/10 p-1.5 text-red-400 hover:bg-red-500/20 transition"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Desglose por Audioguía */}
+        <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
           <h2 className="text-lg font-bold mb-4">Reproducciones por Audioguía</h2>
           {audioRanking.length === 0 ? (
             <p className="text-sm text-white/50">
@@ -171,7 +260,7 @@ export default function Dashboard() {
         </div>
 
         {/* Moderación del Foro */}
-        <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-6">
+        <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6">
           <h2 className="text-lg font-bold mb-4">
             Comentarios del Foro ({comments.length})
           </h2>
