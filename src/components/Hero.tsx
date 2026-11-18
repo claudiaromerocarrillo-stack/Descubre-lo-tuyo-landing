@@ -106,7 +106,7 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
         <div className="animate-fade-up">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-1.5 text-xs font-medium backdrop-blur">
             <Radio className="h-3.5 w-3.5 text-dly-300" />
-            Proyecto cultural transmedia · Sevilla
+            Tu Tierra, Tu Historia
           </div>
           <h1 className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
             Conecta con Sevilla.
