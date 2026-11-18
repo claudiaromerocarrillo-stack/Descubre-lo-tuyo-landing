@@ -8,6 +8,7 @@ import Blog from '@/components/Blog';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import Forum from './components/Forum';
+import Newsletter from './components/Newsletter';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -38,6 +39,7 @@ function MainLanding() {
         <Contact />
       </main>
       <Footer />
+      <Newsletter />
     </div>
   );
 }
@@ -46,20 +48,15 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Landing pública principal */}
         <Route path="/" element={<MainLanding />} />
-        
-        {/* Pantalla de acceso administrador */}
         <Route path="/login" element={<Login />} />
-        
-        {/* Panel privado protegido */}
-        <Route 
-          path="/admin" 
+        <Route
+          path="/admin"
           element={
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>
-          } 
+          }
         />
       </Routes>
     </BrowserRouter>
