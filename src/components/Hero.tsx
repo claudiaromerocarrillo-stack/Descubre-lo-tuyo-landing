@@ -3,6 +3,7 @@ import AudioPlayer from './AudioPlayer';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { supabase } from '../lib/supabase';
 
 // Icono rojo corporativo (#9c0000)
 const redIcon = new L.DivIcon({
@@ -87,6 +88,14 @@ interface HeroProps {
 }
 
 export default function Hero({ activePoint, setActivePoint }: HeroProps) {
+  // Abre el reproductor y registra la reproducción en Supabase
+  const handleSelectPoint = async (punto: PuntoSonoro) => {
+    setActivePoint(punto);
+    await supabase.from('analytics_events').insert([
+      { event_type: 'audio_play', item_name: punto.title },
+    ]);
+  };
+
   return (
     <section id="inicio" className="relative overflow-hidden bg-ink pt-16 text-white md:pt-20">
       {/* Fondo */}
@@ -141,7 +150,7 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
               <ArrowDown className="h-4 w-4" />
             </a>
             <button
-              onClick={() => setActivePoint(puntosLocales[0])}
+              onClick={() => handleSelectPoint(puntosLocales[0])}
               className="btn-light"
             >
               <Headphones className="h-4 w-4" />
@@ -196,7 +205,7 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
                     eventHandlers={{
                       click: () => {
                         if (punto.audioUrl) {
-                          setActivePoint(punto);
+                          handleSelectPoint(punto);
                         }
                       },
                     }}
@@ -218,7 +227,7 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
                         </p>
                         {punto.audioUrl ? (
                           <button
-                            onClick={() => setActivePoint(punto)}
+                            onClick={() => handleSelectPoint(punto)}
                             className="w-full bg-[#9c0000] text-white text-xs py-1.5 px-3 rounded-full font-semibold hover:opacity-90 transition flex items-center justify-center gap-1"
                           >
                             🎧 Escuchar relato
