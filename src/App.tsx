@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import About from '@/components/About';
@@ -11,10 +11,20 @@ import Forum from './components/Forum';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import { supabase } from './lib/supabase';
 import type { MapPoint } from '@/data/map';
 
 function MainLanding() {
   const [activePoint, setActivePoint] = useState<MapPoint | null>(null);
+
+  useEffect(() => {
+    const trackVisit = async () => {
+      await supabase.from('analytics_events').insert([
+        { event_type: 'page_view', item_name: 'Visita Web' },
+      ]);
+    };
+    trackVisit();
+  }, []);
 
   return (
     <div className="min-h-screen bg-paper text-ink">
