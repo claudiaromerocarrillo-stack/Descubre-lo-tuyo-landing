@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Mail, Send, CheckCircle2, X } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 import { supabase } from '../lib/supabase';
+
+const EMAILJS_SERVICE_ID = 'service_4mgow1k';
+const EMAILJS_TEMPLATE_ID = 'template_dolzx6m';
+const EMAILJS_PUBLIC_KEY = 'kZxO479m3dOfsPwC6';
 
 export default function Newsletter() {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,11 +13,9 @@ export default function Newsletter() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'duplicate' | 'error'>('idle');
 
   useEffect(() => {
-    // Si ya la cerró o se suscribió antes, no vuelve a molestarle
     const dismissed = localStorage.getItem('dly_newsletter_dismissed');
     if (dismissed) return;
 
-    // Salta a los 2.5 segundos de entrar en la web
     const timer = setTimeout(() => {
       setIsOpen(true);
     }, 2500);
@@ -29,13 +32,25 @@ export default function Newsletter() {
     e.preventDefault();
     if (!email.trim() || status === 'loading') return;
 
+    const cleanEmail = email.trim().toLowerCase();
     setStatus('loading');
 
     const { error } = await supabase
       .from('newsletter_subscribers')
-      .insert([{ email: email.trim().toLowerCase() }]);
+      .insert([{ email: cleanEmail }]);
 
     if (!error) {
+      try {
+        await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          { to_email: cleanEmail },
+          EMAILJS_PUBLIC_KEY
+        );
+      } catch (emailErr) {
+        console.error('Error enviando correo de bienvenida:', emailErr);
+      }
+
       setStatus('success');
       setEmail('');
       localStorage.setItem('dly_newsletter_dismissed', 'true');
@@ -55,7 +70,6 @@ export default function Newsletter() {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm animate-fade-up">
       <div className="relative w-full max-w-md rounded-3xl border border-white/15 bg-ink p-7 text-white shadow-2xl">
-        {/* Botón cerrar (X) */}
         <button
           onClick={handleClose}
           aria-label="Cerrar ventana"
@@ -78,7 +92,7 @@ export default function Newsletter() {
         {status === 'success' ? (
           <div className="mt-6 flex items-center justify-center gap-2 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3.5 text-center text-sm font-medium text-emerald-300">
             <CheckCircle2 className="h-5 w-5 shrink-0" />
-            ¡Gracias por suscribirte! Ya formas parte de la comunidad.
+            ¡Gracias por suscribirte! Revisa tu bandeja de entrada.
           </div>
         ) : (
           <form onSubmit={handleSubscribe} className="mt-6 space-y-3">
