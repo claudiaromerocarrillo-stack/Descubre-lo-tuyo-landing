@@ -28,18 +28,50 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mt-8 flex flex-col items-center justify-center gap-2 border-t border-white/5 pt-6 text-center font-serif text-xs text-white/40 md:flex-row md:gap-6">
+      <div className="container-dly mt-8 flex flex-col items-center justify-center gap-3 border-t border-white/5 pt-6 text-center font-serif text-xs text-white/40 lg:flex-row lg:gap-4">
         <p>© {new Date().getFullYear()} DescubreLoTuyo · Hecho en Sevilla</p>
-        <span className="hidden md:inline">·</span>
-        <a
-          href="/aviso-legal.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-white/60 transition hover:text-white hover:underline"
-        >
-          <FileText className="h-3.5 w-3.5" />
-          Aviso Legal (PDF)
-        </a>
+        <span className="hidden lg:inline">·</span>
+        <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+          <a
+            href="/Aviso_Legal.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-white/60 transition hover:text-white hover:underline"
+          >
+            <FileText className="h-3.5 w-3.5" />
+            Aviso Legal
+          </a>
+          <span>·</span>
+          <a
+            href="/Politica_de_Privacidad.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-white/60 transition hover:text-white hover:underline"
+          >
+            <FileText className="h-3.5 w-3.5" />
+            Política de Privacidad
+          </a>
+          <span>·</span>
+          <a
+            href="/Politica_de_Cookies.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-white/60 transition hover:text-white hover:underline"
+          >
+            <FileText className="h-3.5 w-3.5" />
+            Política de Cookies
+          </a>
+          <span>·</span>
+          <a
+            href="/Personalizar_Cookies.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-white/60 transition hover:text-white hover:underline"
+          >
+            <FileText className="h-3.5 w-3.5" />
+            Personalizar Cookies
+          </a>
+        </div>
       </div>
     </footer>
   );
