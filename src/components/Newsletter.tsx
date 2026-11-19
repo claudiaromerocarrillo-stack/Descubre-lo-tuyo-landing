@@ -4,7 +4,7 @@ import emailjs from '@emailjs/browser';
 import { supabase } from '../lib/supabase';
 
 const EMAILJS_SERVICE_ID = 'service_4mgow1k';
-const EMAILJS_TEMPLATE_ID = 'template_dolzx6m';
+const EMAILJS_TEMPLATE_ID = 'template_vd3hqxg';
 const EMAILJS_PUBLIC_KEY = 'kZxO479m3dOfsPwC6';
 
 export default function Newsletter() {
