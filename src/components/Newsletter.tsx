@@ -23,6 +23,15 @@ export default function Newsletter() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const handleOpenNewsletter = () => {
+      setStatus('idle');
+      setIsOpen(true);
+    };
+    window.addEventListener('open-newsletter', handleOpenNewsletter);
+    return () => window.removeEventListener('open-newsletter', handleOpenNewsletter);
+  }, []);
+
   const handleClose = () => {
     setIsOpen(false);
     localStorage.setItem('dly_newsletter_dismissed', 'true');
