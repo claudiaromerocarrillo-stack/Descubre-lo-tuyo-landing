@@ -1,4 +1,4 @@
-import { MapPin, Headphones, ArrowDown, Radio } from 'lucide-react';
+import { MapPin, Headphones, ArrowDown, Radio, Mail } from 'lucide-react';
 import AudioPlayer from './AudioPlayer';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -144,17 +144,29 @@ export default function Hero({ activePoint, setActivePoint }: HeroProps) {
             patrimonio de Sevilla se escuche, se sienta y se comparta como nunca antes,
             a cualquier edad.
           </p>
-          <div className="mt-9 flex flex-wrap items-center gap-4">
-            <a href="#proyecto" className="btn-primary">
-              Explora la plataforma
-              <ArrowDown className="h-4 w-4" />
-            </a>
+
+          <div className="mt-9 flex flex-col items-start gap-3">
+            <div className="flex flex-wrap items-center gap-4">
+              <a href="#proyecto" className="btn-primary">
+                Explora la plataforma
+                <ArrowDown className="h-4 w-4" />
+              </a>
+              <button
+                onClick={() => handleSelectPoint(puntosLocales[0])}
+                className="btn-light"
+              >
+                <Headphones className="h-4 w-4" />
+                Escucha una demo
+              </button>
+            </div>
+
             <button
-              onClick={() => handleSelectPoint(puntosLocales[0])}
-              className="btn-light"
+              type="button"
+              onClick={() => window.dispatchEvent(new Event('open-newsletter'))}
+              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:border-white/50 hover:bg-white/20"
             >
-              <Headphones className="h-4 w-4" />
-              Escucha una demo
+              <Mail className="h-4 w-4 text-dly-300" />
+              Únete a la newsletter
             </button>
           </div>
 
